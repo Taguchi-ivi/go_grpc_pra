@@ -4,6 +4,8 @@ import "proto/date.proto";
 
 package employee;
 
+option go_package = "./pb";
+
 // comment
 
 /*
