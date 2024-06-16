@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+import "proto/date.proto";
+
+package employee;
+
+// comment
+
+/*
+comment1
+comment2
+*/
+
+/*
+messageについて
+messageは、データ構造を定義するためのもの(構造体やクラスのようなもの)
+フィールドの型 フィールド名 = タグ番号(初期値的な役割はない);
+
+messsage person {
+  int32 id = 1;
+  string name = 2;
+  string email = 3;
+}
+*/
+
+message Employee {
+  int32 id = 1;
+  string name = 2;
+  string email = 3;
+  Occupation occupation = 4;
+  // repeatedは配列のようなもの
+  repeated string phone_numbers = 5;
+  // map はrepeatedを使えない
+  // map<string, Project> projects = 6;
+  map<string, Company.Project> projects = 6;
+  // oneofはどれか一つだけを持つことができる
+  oneof profile {
+    string text = 7;
+    Video video = 8;
+  }
+  date.Date birthday = 9;
+}
+
+
+/*
+型について
+参照: https://protobuf.dev/programming-guides/proto3/#scalar
+int => +,-
+uint => +
+sint => 符号付き整数
+fixed32 => 32bit固定長 非常に大きな数値を扱う場合に使う
+パフォーマンスがちょっとよくなるぐらい、あまり意識しなくても良い場合はintを使う
+*/
+
+// 列挙型
+// 列挙した値のいずれかを持つことができる
+// 列挙型の値は、大文字で型は不要
+// tag番号は0から始まる また0を含めないといけない
+// 0はデフォルト値として使われる
+// 0は使わないことが推奨されていて、慣例的にUNKNOWNとして使われる
+enum Occupation {
+  OCCUPATION_UNKNOWN = 0;
+  ENGINEER = 1;
+  DESIGNER = 2;
+  MANAGER = 3;
+}
+
+message Project {}
+message Video {}
+
+// default値を定義できる フィールドがセットされていない場合に使われる
+// 型によってデフォルト値が異なる
+
+// messageのネスト
+// 名前の衝突を避けることができる
+// Company.Projectという名前でアクセスする
+// スコープを限定することができる
+message Company {
+  message Project {}
+}
+
+// import and package
+// importは他のprotoファイルをインポートする
+// 使用していない場合はwarningが出る
+// packageは名前空間を定義する
+// package名はファイルのディレクトリ構造に基づいている
+// date.Dateという感じでアクセスする
