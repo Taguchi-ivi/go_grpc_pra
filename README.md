@@ -5,6 +5,11 @@
 
 Go + gRPC がメイン
 
+### 詳細
+
+- section1 ~ 4 basics フォルダ
+- section5 ~ grpc-lesson フォルダ
+
 ## そもそも Protocol Buffers とは
 
 google によって 2008 年に os になったスキーマ言語
@@ -34,7 +39,13 @@ google によって 2008 年に os になったスキーマ言語
 
 ```bash
 # -IPATH パス指定, :で区切ることも可能(defaultは-I.)
+# not gPRC
 protoc -I. --go_out=. proto/*.proto
+```
+
+```bash
+# gPRC
+protoc -I. --go_out=. --go-grpc_out=. proto/*.proto
 ```
 
 ## gPRC とは
