@@ -16,10 +16,20 @@ message DonwloadResponse {
   bytes data = 1;
 }
 
+message UploadRequest {
+  bytes data = 1;
+}
+message UploadResponse {
+  int32 size = 1;
+}
+
 service FileService {
   // Unary RPC
   rpc ListFiles (ListFilesRequest) returns (ListFilesResponse);
 
   // Server streaming RPC
   rpc Download (DownloadRequest) returns (stream DonwloadResponse);
+
+  // Client streaming RPC
+  rpc Upload (stream UploadRequest) returns (UploadResponse);
 }
