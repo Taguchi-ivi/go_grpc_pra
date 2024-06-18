@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"grpc-lesson/pb"
+	"io"
 	"log"
 
 	"google.golang.org/grpc"
@@ -17,7 +18,8 @@ func main() {
 	defer conn.Close()
 
 	client := pb.NewFileServiceClient(conn)
-	callListFiles(client)
+	// callListFiles(client)
+	callDownload(client)
 
 }
 
@@ -29,4 +31,27 @@ func callListFiles(client pb.FileServiceClient) {
 	}
 
 	fmt.Println(res.GetFilename())
+}
+
+func callDownload(client pb.FileServiceClient) {
+	req := &pb.DownloadRequest{
+		Filename: "name.txt",
+	}
+	stream, err := client.Download(context.Background(), req)
+	if err != nil {
+		log.Fatalf("Failed to download: %v", err)
+	}
+
+	for {
+		res, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatalf("Failed to receive chunk: %v", err)
+		}
+
+		log.Println(res.GetData())
+		log.Println(string(res.GetData()))
+	}
 }

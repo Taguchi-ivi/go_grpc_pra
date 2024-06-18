@@ -9,7 +9,17 @@ message ListFilesResponse {
   repeated string filename = 1;
 }
 
-// Unary RPC
+message DownloadRequest {
+  string filename = 1;
+}
+message DonwloadResponse {
+  bytes data = 1;
+}
+
 service FileService {
+  // Unary RPC
   rpc ListFiles (ListFilesRequest) returns (ListFilesResponse);
+
+  // Server streaming RPC
+  rpc Download (DownloadRequest) returns (stream DonwloadResponse);
 }
