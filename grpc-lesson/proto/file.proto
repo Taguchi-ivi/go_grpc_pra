@@ -23,6 +23,13 @@ message UploadResponse {
   int32 size = 1;
 }
 
+message UploadAndNotifyProgressRequest {
+  bytes data = 1;
+}
+message UploadAndNotifyProgressResponse {
+  string msg = 1;
+}
+
 service FileService {
   // Unary RPC
   rpc ListFiles (ListFilesRequest) returns (ListFilesResponse);
@@ -32,4 +39,7 @@ service FileService {
 
   // Client streaming RPC
   rpc Upload (stream UploadRequest) returns (UploadResponse);
+
+  // 双方向 streaming RPC
+  rpc UploadAndNotifyProgress (stream UploadAndNotifyProgressRequest) returns (stream UploadAndNotifyProgressResponse);
 }

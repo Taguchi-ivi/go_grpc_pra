@@ -22,7 +22,8 @@ func main() {
 	client := pb.NewFileServiceClient(conn)
 	// callListFiles(client)
 	// callDownload(client)
-	callUpload(client)
+	// callUpload(client)
+	callUploadAndNotifyProgress(client)
 
 }
 
@@ -101,4 +102,66 @@ func callUpload(client pb.FileServiceClient) {
 	}
 
 	log.Printf("Upload response: %v", res.GetSize())
+}
+
+func callUploadAndNotifyProgress(client pb.FileServiceClient) {
+	filename := "sports.txt"
+	path := os.Getenv("STORAGE_PATH") + "/" + filename
+
+	file, err := os.Open(path)
+	if err != nil {
+		log.Fatalf("Failed to open file: %v", err)
+	}
+	defer file.Close()
+
+	stream, err := client.UploadAndNotifyProgress(context.Background())
+	if err != nil {
+		log.Fatalf("Failed to upload: %v", err)
+	}
+
+	// request
+	buf := make([]byte, 5)
+	go func() {
+		for {
+			n, err := file.Read(buf)
+			if n == 0 || err == io.EOF {
+				break
+			}
+			if err != nil {
+				log.Fatalf("Failed to read chunk: %v", err)
+			}
+
+			req := &pb.UploadAndNotifyProgressRequest{
+				Data: buf[:n],
+			}
+			sendErr := stream.Send(req)
+			if sendErr != nil {
+				log.Fatalf("Failed to send chunk: %v", sendErr)
+			}
+			time.Sleep(1 * time.Second)
+		}
+
+		err := stream.CloseSend()
+		if err != nil {
+			log.Fatalf("Failed to close stream: %v", err)
+		}
+	}()
+
+	// response
+	ch := make(chan struct{})
+	go func() {
+		for {
+			res, err := stream.Recv()
+			if err == io.EOF {
+				break
+			}
+			if err != nil {
+				log.Fatalf("Failed to receive response: %v", err)
+			}
+
+			log.Printf("Received response: %v", res.GetMsg())
+		}
+		close(ch)
+	}()
+	<-ch
 }
