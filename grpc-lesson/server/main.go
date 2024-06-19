@@ -129,6 +129,23 @@ func (*server) UploadAndNotifyProgress(stream pb.FileService_UploadAndNotifyProg
 	}
 }
 
+func myLogging() grpc.UnaryServerInterceptor {
+	return func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
+		// 処理前のログを出力
+		log.Printf("Request data: %+v", req)
+
+		// handlerを呼び出し、ここで処理が実行される。
+		resp, err = handler(ctx, req)
+		if err != nil {
+			return nil, err
+		}
+		// 処理後のログを出力
+		log.Printf("response data: %+v", resp)
+
+		return resp, nil
+	}
+}
+
 func main() {
 	loadEnv()
 	lis, err := net.Listen("tcp", "localhost:50051")
@@ -136,7 +153,7 @@ func main() {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 
-	s := grpc.NewServer()
+	s := grpc.NewServer(grpc.UnaryInterceptor(myLogging()))
 	pb.RegisterFileServiceServer(s, &server{})
 
 	fmt.Println("Server is running on port: 50051")
