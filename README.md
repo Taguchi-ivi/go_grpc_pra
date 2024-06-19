@@ -117,3 +117,9 @@ demo: http://www.http2demo.io/
 - メソッドの前後に処理を行うための仕組み
 - 認証やロギング、監視やバリデーションなど複数の RPC で共通して行いたい処理で使用
 - Unary 用とストリーミング用が用意されている
+
+## エラーハンドリング
+
+- REST API だと数字(400,500)を覚える必要があったが、grpc のエラーハンドリングは文字列なので覚える必要もない
+- 下記参照
+  https://grpc.github.io/grpc/core/md_doc_statuscodes.html
