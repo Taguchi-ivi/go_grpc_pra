@@ -8,7 +8,7 @@ Go + gRPC がメイン
 ### 詳細
 
 - section1 ~ 4 basics フォルダ
-- section5 ~ grpc-lesson フォルダ
+- section5 ~ github.com/Taguchi-ivi/go_grpc_pra フォルダ
 
 ## そもそも Protocol Buffers とは
 
