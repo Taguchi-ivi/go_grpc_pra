@@ -8,7 +8,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/Taguchi-ivi/go_grpc_pra/pb"
+	"github.com/Taguchi-ivi/go_grpc_pra/grpc-lesson/pb"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
