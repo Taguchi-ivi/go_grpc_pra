@@ -1,4 +1,4 @@
-module grpc-lesson
+module github.com/Taguchi-ivi/go_grpc_pra
 
 go 1.21.4
 

@@ -3,11 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
-	"grpc-lesson/pb"
 	"io"
 	"log"
 	"os"
 	"time"
+
+	"github.com/Taguchi-ivi/go_grpc_pra/pb"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
