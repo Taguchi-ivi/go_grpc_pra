@@ -3,7 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
-	"protobuf-lesson/pb"
+
+	"github.com/Taguchi-ivi/go_grpc_pra/basics/pb"
 
 	"github.com/golang/protobuf/jsonpb"
 )
