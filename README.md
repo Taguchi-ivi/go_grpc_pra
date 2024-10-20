@@ -50,7 +50,7 @@ protoc -I. --go_out=. --go-grpc_out=. proto/*.proto
 
 ## gPRC とは
 
-Coogle によって 2015 年に os 化された PRC(Remote Procedure Call)のためのプロトコル
+Google によって 2015 年に os 化された PRC(Remote Procedure Call)のためのプロトコル
 
 RPC(Remote 遠隔地 Procedure 手続き Call 呼び出す)とは
 
@@ -123,3 +123,10 @@ demo: http://www.http2demo.io/
 - REST API だと数字(400,500)を覚える必要があったが、grpc のエラーハンドリングは文字列なので覚える必要もない
 - 下記参照
   https://grpc.github.io/grpc/core/md_doc_statuscodes.html
+
+
+## 追記
+ついでにzennのやつを対応。
+久しぶりに色々思い出そう
+
+記事: https://zenn.dev/hsaki/books/golang-grpc-starting
