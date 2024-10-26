@@ -126,7 +126,9 @@ demo: http://www.http2demo.io/
 
 
 ## 追記
-ついでにzennのやつを対応。
-久しぶりに色々思い出そう
+ついでにzennのやつを対応。</br>
+久しぶりに色々思い出そう</br>
+知見ためる</br>
+フォルダはこちら: zenn-grpc
 
 記事: https://zenn.dev/hsaki/books/golang-grpc-starting
